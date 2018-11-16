@@ -28,7 +28,7 @@ class SlackBot
             filename: 'morpheus.jpg',
             initial_comment: "Enough with the SPAM already <@#{data.user}>!"
         )
-      when /olá|bom dia|hello|good morning/ then
+      when /ol[á|a]|bom dia|hello|good morning/ then
         @slack_bot.message channel: data.channel, text: "Hello <@#{data.user}> :wave:"
       end
     end
