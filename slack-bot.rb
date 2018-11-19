@@ -24,7 +24,7 @@ class SlackBot
       when /<!here>/ then
         @slack_bot.web_client.files_upload(
             channels: data.channel,
-            file: Faraday::UploadIO.new('images/morpheus.jpg', 'image/jpeg'),
+            file: Faraday::UploadIO.new('./images/morpheus.jpg', 'image/jpeg'),
             filename: 'morpheus.jpg',
             initial_comment: "Enough with the SPAM already <@#{data.user}>!"
         )
