@@ -20,21 +20,24 @@ class SlackBot
 
   def register_message_method
     @slack_bot.on :message do |data|
-      original_text = data.text
-      case data.text.downcase
-      when /<!here>/ then
-        @slack_bot.web_client.files_upload(
-            channels: data.channel,
-            file: Faraday::UploadIO.new('./images/morpheus.jpg', 'image/jpeg'),
-            filename: 'morpheus.jpg',
-            initial_comment: "Enough with the SPAM already <@#{data.user}>!"
-        )
-      when /ol[á|a]|bom dia|hello|good morning/ then
-        @slack_bot.message channel: data.channel, text: "Hello <@#{data.user}> :wave:"
-      when /xing/ then
-        @slack_bot.message channel: data.channel, text: "*XING, dumbass :grammar_nazi:" unless original_text == 'XING'
-      when /kununu/ then
-        @slack_bot.message channel: data.channel, text: "*kununu, dumbass :grammar_nazi:" unless original_text == 'kununu'
+      data.text.split(' ').each do |word|
+        original_word = word
+
+        case word.downcase
+        when '<!here>' then
+          @slack_bot.web_client.files_upload(
+              channels: data.channel,
+              file: Faraday::UploadIO.new("#{Dir.pwd}/images/morpheus.jpg", 'image/jpeg'),
+              filename: 'morpheus.jpg',
+              initial_comment: "Enough with the SPAM already <@#{data.user}>!"
+          )
+        when /ol[á|a]|bom dia|hello|good morning/ then
+          @slack_bot.message channel: data.channel, text: "Hello <@#{data.user}> :wave:"
+        when 'xing' then
+          @slack_bot.message channel: data.channel, text: "*XING, dumbass :grammar_nazi:" unless original_word == 'XING'
+        when 'kununu' then
+          @slack_bot.message channel: data.channel, text: "*kununu, dumbass :grammar_nazi:" unless original_word == 'kununu'
+        end
       end
     end
   end
