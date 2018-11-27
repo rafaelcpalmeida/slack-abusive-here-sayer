@@ -23,7 +23,7 @@ class SlackBot
       data.text.split(' ').each do |word|
         original_word = word
 
-        case word.downcase
+        case word.downcase.gsub(/[^a-z0-9\s]/i, '')
         when '<!here>' then
           @slack_bot.web_client.files_upload(
               channels: data.channel,
